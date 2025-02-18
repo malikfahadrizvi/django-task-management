@@ -1,0 +1,48 @@
+name: Django CI/CD
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+env:
+  DJANGO_SECRET_KEY: ${{ "django-insecure-4a)o1i6gdues7-9*8&1b28p#4f@spq*7vc5wl(ms@tq9j$d-m@" }}
+  DATABASE_URL: sqlite:///db.sqlite3
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.12"]
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Run migrations
+      run: python manage.py migrate
+
+    - name: Run tests
+      run: python manage.py test
+
+    - name: Lint with flake8
+      run: |
+        pip install flake8
+        flake8 . --count --show-source --statistics
+
+    - name: Security check
+      run: |
+        pip install bandit
+        bandit -r . -ll
