@@ -25,9 +25,13 @@ SECRET_KEY = "django-insecure-4a)o1i6gdues7-9*8&1b28p#4f@spq*7vc5wl(ms@tq9j$d-m@
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
-
+# ✅ Add CSRF Trusted Origins (Ensure it is correctly formatted)
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:8000",  # Allow local development
+    "http://127.0.0.1:8000",  # Allow 127.0.0.1
+]
 # Application definition
 
 INSTALLED_APPS = [
@@ -37,11 +41,13 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    'rest_framework',
     'tasks',
 ]
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    'django.middleware.csrf.CsrfViewMiddleware',
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -122,3 +128,6 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+LOGIN_REDIRECT_URL = '/admin-dashboard/'  # Redirect admin users
+LOGOUT_REDIRECT_URL = '/'  # Redirect users to home after logout
