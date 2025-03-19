@@ -8,7 +8,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = "django-insecure-4a)o1i6gdues7-9*8&1b28p#4f@spq*7vc5wl(ms@tq9j$d-m@"
 DEBUG = True
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.github.dev']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.github.dev', 'django-task-management-7.onrender.com']
+
 
 # 🔒 Security Settings
 CSRF_TRUSTED_ORIGINS = [
